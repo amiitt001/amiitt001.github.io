@@ -3,107 +3,430 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Amit Verma - Portfolio</title>
-    
-    <!-- Tailwind CSS -->
+    <title>Amit Verma — Portfolio</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Lucide Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
-
     <style>
-        /* Custom styles for a clean look and feel */
+        :root {
+            --black: #0d0d0d;
+            --white: #fafaf5;
+            --yellow: #f5d90a;
+            --pink: #ff6b9d;
+            --blue: #4a90e2;
+            --green: #00c48c;
+            --border: 2.5px solid #0d0d0d;
+            --shadow: 4px 4px 0px #0d0d0d;
+            --shadow-lg: 6px 6px 0px #0d0d0d;
+        }
+        * { box-sizing: border-box; }
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #0a192f; /* A deep navy blue for a modern tech feel */
-            color: #ccd6f6; /* A light, soft color for text */
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: var(--white);
+            color: var(--black);
+            cursor: default;
         }
-        .section-title {
-            color: #64ffda; /* A vibrant mint/cyan for headings */
+        .mono { font-family: 'Space Mono', monospace; }
+        /* Nav */
+        nav {
+            border-bottom: var(--border);
+            background: var(--white);
+            position: sticky; top: 0; z-index: 50;
         }
-        .glassmorphism {
-            background: rgba(13, 30, 51, 0.6);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        .nav-link {
+            font-weight: 600;
+            font-size: 13px;
+            padding: 6px 14px;
+            border: var(--border);
+            border-radius: 4px;
+            transition: background 0.15s, box-shadow 0.15s;
+            text-decoration: none;
+            color: var(--black);
         }
-        .highlight-text {
-            color: #64ffda;
+        .nav-link:hover {
+            background: var(--yellow);
+            box-shadow: var(--shadow);
         }
-        .project-card {
-            background-color: #112240; /* A slightly lighter navy for cards */
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        .nav-cta {
+            background: var(--black);
+            color: var(--white);
+            font-weight: 700;
+            font-size: 13px;
+            padding: 8px 18px;
+            border: var(--border);
+            border-radius: 4px;
+            box-shadow: var(--shadow);
+            transition: transform 0.15s, box-shadow 0.15s;
+            text-decoration: none;
         }
-        .project-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 30px -15px rgba(2, 12, 27, 0.7);
+        .nav-cta:hover { transform: translate(-2px,-2px); box-shadow: var(--shadow-lg); }
+
+        /* Brutalist card */
+        .bcard {
+            border: var(--border);
+            border-radius: 6px;
+            box-shadow: var(--shadow-lg);
+            background: var(--white);
+            transition: transform 0.15s, box-shadow 0.15s;
         }
-        .tech-tag {
-            background-color: #1a3a5e;
-            color: #64ffda;
+        .bcard:hover { transform: translate(-3px,-3px); box-shadow: 9px 9px 0 var(--black); }
+
+        /* Tags */
+        .tag {
+            display: inline-block;
+            border: 2px solid var(--black);
+            border-radius: 4px;
+            font-family: 'Space Mono', monospace;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 3px 9px;
+            background: var(--white);
+        }
+        .tag-yellow { background: var(--yellow); }
+        .tag-pink { background: #ffd6e7; }
+        .tag-blue { background: #d6e8ff; }
+        .tag-green { background: #ccf5e7; }
+
+        /* Skill pill */
+        .skill-pill {
+            border: var(--border);
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 6px 14px;
+            background: var(--white);
+            box-shadow: 3px 3px 0 var(--black);
+            transition: transform 0.1s, box-shadow 0.1s, background 0.1s;
+        }
+        .skill-pill:hover { background: var(--yellow); transform: translate(-1px,-1px); box-shadow: 4px 4px 0 var(--black); }
+
+        /* Section label */
+        .section-label {
+            font-family: 'Space Mono', monospace;
+            font-size: 12px;
+            font-weight: 700;
+            border: var(--border);
+            border-radius: 4px;
+            padding: 4px 12px;
+            display: inline-block;
+            background: var(--black);
+            color: var(--white);
+            margin-bottom: 16px;
+        }
+
+        /* Ticker */
+        .ticker-wrap { overflow: hidden; border-top: var(--border); border-bottom: var(--border); background: var(--black); }
+        .ticker {
+            display: flex;
+            white-space: nowrap;
+            animation: ticker 18s linear infinite;
+        }
+        .ticker span { color: var(--white); font-family: 'Space Mono', monospace; font-size: 13px; font-weight: 700; padding: 10px 32px; }
+        .ticker span.dot { color: var(--yellow); }
+        @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+        /* Highlight underline */
+        .hl { background: var(--yellow); padding: 0 4px; border-radius: 2px; }
+        .hl-pink { background: #ffd6e7; padding: 0 4px; border-radius: 2px; }
+
+        /* Cert card */
+        .cert-link {
+            display: flex; align-items: center; gap: 14px;
+            border: var(--border); border-radius: 6px;
+            padding: 16px 20px;
+            box-shadow: var(--shadow);
+            text-decoration: none; color: var(--black);
+            background: var(--white);
+            transition: transform 0.15s, box-shadow 0.15s, background 0.15s;
+        }
+        .cert-link:hover { background: var(--yellow); transform: translate(-2px,-2px); box-shadow: var(--shadow-lg); }
+
+        /* Sticker blobs */
+        .sticker {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 52px; height: 52px; border-radius: 50%;
+            border: var(--border);
+            font-size: 22px;
+            box-shadow: var(--shadow);
+            background: var(--yellow);
+            flex-shrink: 0;
+        }
+
+        /* Button */
+        .btn {
+            display: inline-block;
+            font-weight: 700;
+            font-size: 14px;
+            padding: 12px 28px;
+            border: var(--border);
+            border-radius: 6px;
+            box-shadow: var(--shadow-lg);
+            transition: transform 0.15s, box-shadow 0.15s;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .btn:hover { transform: translate(-2px,-2px); box-shadow: 8px 8px 0 var(--black); }
+        .btn-black { background: var(--black); color: var(--white); }
+        .btn-yellow { background: var(--yellow); color: var(--black); }
+
+        /* Mobile menu */
+        #mobile-menu { border-top: var(--border); background: var(--white); }
+
+        /* Marquee deco shape */
+        .shape-box {
+            border: var(--border);
+            border-radius: 6px;
+            box-shadow: var(--shadow);
+        }
+
+        /* Hero deco frame */
+        .hero-frame {
+            border: var(--border);
+            border-radius: 8px;
+            box-shadow: var(--shadow-lg);
+            background: #f0ede4;
+            padding: 12px;
+            position: relative;
+        }
+        .hero-frame-dot {
+            width: 10px; height: 10px; border-radius: 50%; border: 2px solid var(--black); display: inline-block; margin-right: 5px;
         }
     </style>
 </head>
-<body class="antialiased">
+<body>
 
-    <!-- Header -->
-    <header class="glassmorphism sticky top-0 z-50">
-        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="https://github.com/amiitt001" class="text-2xl font-bold highlight-text">AV</a>
-            <div class="hidden md:flex space-x-6 items-center">
-                <a href="#about" class="hover:text-cyan-400 transition-colors duration-300">About</a>
-                <a href="#experience" class="hover:text-cyan-400 transition-colors duration-300">Education</a>
-                <a href="#projects" class="hover:text-cyan-400 transition-colors duration-300">Projects</a>
-                <a href="#contact" class="block bg-cyan-500/10 text-cyan-400 border border-cyan-400 px-4 py-2 rounded-md hover:bg-cyan-500/20 transition-colors duration-300 text-center mt-2">Contact</a>
-<!--                 <a href="#" class="bg-cyan-500/10 text-cyan-400 border border-cyan-400 px-4 py-2 rounded-md hover:bg-cyan-500/20 transition-colors duration-300">Resume</a> -->
-            </div>
-            <button id="mobile-menu-button" class="md:hidden">
-                <i data-lucide="menu" class="h-6 w-6"></i>
-            </button>
-        </nav>
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden md:hidden px-6 pb-4 space-y-2">
-             <a href="#about" class="block hover:text-cyan-400 transition-colors duration-300">About</a>
-             <a href="#experience" class="block hover:text-cyan-400 transition-colors duration-300">Education</a>
-             <a href="#projects" class="block hover:text-cyan-400 transition-colors duration-300">Projects</a>
-             <a href="#contact" class="block hover:text-cyan-400 transition-colors duration-300">Contact</a>
-             <a href="#" class="block bg-cyan-500/10 text-cyan-400 border border-cyan-400 px-4 py-2 rounded-md hover:bg-cyan-500/20 transition-colors duration-300 text-center mt-2">Resume</a>
+<!-- Nav -->
+<nav>
+    <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+        <a href="#" class="mono font-bold text-xl tracking-tight">AV<span style="color:var(--yellow)">.</span></a>
+        <div class="hidden md:flex items-center gap-3">
+            <a href="#about" class="nav-link">About</a>
+            <a href="#skills" class="nav-link">Skills</a>
+            <a href="#projects" class="nav-link">Projects</a>
+            <a href="#education" class="nav-link">Education</a>
+            <a href="#contact" class="nav-cta">Say Hello ↗</a>
         </div>
-    </header>
+        <button id="mobile-menu-button" class="md:hidden border-2 border-black rounded p-1">
+            <i data-lucide="menu" class="h-5 w-5"></i>
+        </button>
+    </div>
+    <div id="mobile-menu" class="hidden md:hidden px-6 py-4 space-y-3">
+        <a href="#about" class="block font-semibold hover:underline">About</a>
+        <a href="#skills" class="block font-semibold hover:underline">Skills</a>
+        <a href="#projects" class="block font-semibold hover:underline">Projects</a>
+        <a href="#education" class="block font-semibold hover:underline">Education</a>
+        <a href="#contact" class="block font-semibold hover:underline">Contact</a>
+    </div>
+</nav>
 
-    <main class="container mx-auto px-6 md:px-12 lg:px-24">
-
-        <!-- Hero Section -->
-        <section id="home" class="min-h-screen flex flex-col justify-center">
-            <div class="max-w-3xl">
-                <p class="text-lg highlight-text mb-4">Hi, my name is</p>
-                <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold text-slate-200">Amit Verma.</h1>
-                <h2 class="text-4xl md:text-6xl lg:text-7xl font-bold text-slate-400 mt-2">I love to build and learn.</h2>
-                <p class="mt-6 max-w-xl text-lg">
-                    I'm a passionate student and Gen AI enthusiast, focused on solving problems and building useful applications with modern web technologies. Currently, I'm building a <a href="#" class="highlight-text font-semibold hover:underline">Personalized Career & Skills Advisor</a>.
-                </p>
-                <a href="#projects" class="inline-block mt-8 bg-cyan-500/10 text-cyan-400 border border-cyan-400 font-medium py-3 px-8 rounded-md hover:bg-cyan-500/20 transition-colors duration-300">
-                    Check out my work!
+<!-- Hero -->
+<section id="home" class="max-w-6xl mx-auto px-6 py-20 md:py-28">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+        <div>
+            <div class="section-label mono mb-5">// hello world</div>
+            <h1 class="text-5xl md:text-6xl font-bold leading-tight mb-4" style="line-height:1.1">
+                Hi, I'm<br>
+                <span class="hl">Amit Verma.</span>
+            </h1>
+            <h2 class="text-2xl font-bold text-gray-600 mb-6">I build systems that <span class="hl-pink">learn.</span></h2>
+            <p class="text-base leading-relaxed text-gray-600 mb-8 max-w-md">
+                2nd year B.Tech CSE at Galgotias College. Building AI-powered backends, training ML models, and deploying on GCP — one experiment at a time. Coordinator at GFG & LOOP Tech Club.
+            </p>
+            <div class="flex flex-wrap gap-4">
+                <a href="#projects" class="btn btn-black">View Projects ↓</a>
+                <a href="https://github.com/amiitt001" target="_blank" class="btn btn-yellow">
+                    <i data-lucide="github" class="h-4 w-4 inline -mt-0.5 mr-1"></i> GitHub
                 </a>
             </div>
-        </section>
+        </div>
+        <div class="flex justify-center md:justify-end">
+            <div class="hero-frame w-72">
+                <div class="flex items-center gap-1 mb-3">
+                    <span class="hero-frame-dot" style="background:#ff6b9d"></span>
+                    <span class="hero-frame-dot" style="background:#f5d90a"></span>
+                    <span class="hero-frame-dot" style="background:#00c48c"></span>
+                </div>
+                <img src="https://avatars.githubusercontent.com/u/185125017?s=400&u=789c858418d1876e21390a183c977122a02ab074&v=4"
+                     alt="Amit Verma"
+                     class="w-full rounded-md border-2 border-black object-cover"
+                     style="aspect-ratio:1/1">
+                <div class="mt-3 flex flex-wrap gap-2">
+                    <span class="tag tag-yellow">AI/ML 🧠</span>
+                    <span class="tag tag-pink">DevOps ⚙️</span>
+                    <span class="tag tag-blue">GCP ☁️</span>
+                    <span class="tag tag-green">Open Source</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
-        <!-- About Section -->
-        <section id="about" class="py-24">
-            <h2 class="text-3xl font-bold mb-8 flex items-center">
-                <span class="section-title mr-4">01.</span>
-                <span class="text-slate-200">About Me</span>
-                <span class="flex-grow h-px bg-slate-700 ml-6"></span>
-            </h2>
-            <div class="grid grid-cols-1 md:grid-cols-5 gap-12">
-                <div class="md:col-span-3">
-                    <p class="mb-4">
-                        Hello there! I'm Amit, a student developer passionate about helping others in India navigate their career paths. I enjoy tackling complex problems and honing my practical cloud skills, especially with the Google Cloud Arcade.
+<!-- Ticker -->
+<div class="ticker-wrap py-0">
+    <div class="ticker">
+        <span>Python</span><span class="dot">✦</span>
+        <span>C++</span><span class="dot">✦</span>
+        <span>DevOps</span><span class="dot">✦</span>
+        <span>Docker</span><span class="dot">✦</span>
+        <span>Vertex AI</span><span class="dot">✦</span>
+        <span>YOLOv8</span><span class="dot">✦</span>
+        <span>GCP</span><span class="dot">✦</span>
+        <span>Linux</span><span class="dot">✦</span>
+        <span>DSA</span><span class="dot">✦</span>
+        <span>n8n</span><span class="dot">✦</span>
+        <span>PyTorch</span><span class="dot">✦</span>
+        <span>TypeScript</span><span class="dot">✦</span>
+        <!-- duplicate for seamless loop -->
+        <span>Python</span><span class="dot">✦</span>
+        <span>C++</span><span class="dot">✦</span>
+        <span>DevOps</span><span class="dot">✦</span>
+        <span>Docker</span><span class="dot">✦</span>
+        <span>Vertex AI</span><span class="dot">✦</span>
+        <span>YOLOv8</span><span class="dot">✦</span>
+        <span>GCP</span><span class="dot">✦</span>
+        <span>Linux</span><span class="dot">✦</span>
+        <span>DSA</span><span class="dot">✦</span>
+        <span>n8n</span><span class="dot">✦</span>
+        <span>PyTorch</span><span class="dot">✦</span>
+        <span>TypeScript</span><span class="dot">✦</span>
+    </div>
+</div>
+
+<!-- About -->
+<section id="about" class="max-w-6xl mx-auto px-6 py-24">
+    <div class="section-label">01 // About Me</div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-4">
+        <div class="md:col-span-2 space-y-4 text-base leading-relaxed text-gray-700">
+            <p>I'm Amit — a CS student who treats every project as an <strong>experiment, a system, and a learning surface.</strong> I don't build things to add to a list; I build to understand how things actually work.</p>
+            <p>My work spans backend architecture, cloud deployments on GCP, computer vision with PyTorch, and automation with n8n. I've shipped production deployments, trained ML models, and built tools that people actually use.</p>
+            <p>Outside of code, I help run two college tech communities — <strong>GFG Club</strong> and <strong>LOOP Tech Club</strong> — where I organise events, mentor peers, and keep the community shipping.</p>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+            <div class="bcard p-5 text-center">
+                <div class="text-3xl font-bold mono">5+</div>
+                <div class="text-sm text-gray-500 mt-1 font-medium">Projects shipped</div>
+            </div>
+            <div class="bcard p-5 text-center">
+                <div class="text-3xl font-bold mono">15</div>
+                <div class="text-sm text-gray-500 mt-1 font-medium">Prod deployments</div>
+            </div>
+            <div class="bcard p-5 text-center" style="background:var(--yellow)">
+                <div class="text-3xl font-bold mono">GCP</div>
+                <div class="text-sm text-gray-700 mt-1 font-medium">Certified</div>
+            </div>
+            <div class="bcard p-5 text-center">
+                <div class="text-3xl font-bold mono">2</div>
+                <div class="text-sm text-gray-500 mt-1 font-medium">Clubs led</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Skills -->
+<section id="skills" class="max-w-6xl mx-auto px-6 py-10 pb-24">
+    <div class="section-label">02 // Skills & Stack</div>
+    <div class="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div>
+            <p class="mono text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">Languages</p>
+            <div class="flex flex-wrap gap-2">
+                <span class="skill-pill">Python</span>
+                <span class="skill-pill">C++</span>
+                <span class="skill-pill">TypeScript</span>
+                <span class="skill-pill">JavaScript</span>
+            </div>
+        </div>
+        <div>
+            <p class="mono text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">Cloud & Infra</p>
+            <div class="flex flex-wrap gap-2">
+                <span class="skill-pill">GCP</span>
+                <span class="skill-pill">Docker</span>
+                <span class="skill-pill">Firebase</span>
+                <span class="skill-pill">Linux</span>
+                <span class="skill-pill">GitHub Actions</span>
+                <span class="skill-pill">DevOps</span>
+            </div>
+        </div>
+        <div>
+            <p class="mono text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">AI / ML</p>
+            <div class="flex flex-wrap gap-2">
+                <span class="skill-pill">Vertex AI</span>
+                <span class="skill-pill">Gemini</span>
+                <span class="skill-pill">PyTorch</span>
+                <span class="skill-pill">YOLOv8</span>
+                <span class="skill-pill">MobileNetV2</span>
+            </div>
+        </div>
+        <div>
+            <p class="mono text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">Tools</p>
+            <div class="flex flex-wrap gap-2">
+                <span class="skill-pill">DSA (C++)</span>
+                <span class="skill-pill">n8n</span>
+                <span class="skill-pill">Git</span>
+                <span class="skill-pill">nginx</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Projects -->
+<section id="projects" style="border-top: var(--border)">
+    <div class="max-w-6xl mx-auto px-6 py-24">
+        <div class="section-label">03 // Things I've Built</div>
+        <div class="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+            <!-- SkillSphere -->
+            <div class="bcard p-6 flex flex-col" style="background:#fafaf5">
+                <div class="flex justify-between items-start mb-4">
+                    <div class="sticker" style="background:var(--yellow)">🧠</div>
+                    <a href="https://github.com/amiitt001/SkillSphere" target="_blank" class="border-2 border-black rounded p-1.5 hover:bg-yellow-200 transition-colors">
+                        <i data-lucide="github" class="h-4 w-4"></i>
+                    </a>
+                </div>
+                <h3 class="text-lg font-bold mb-2">SkillSphere</h3>
+                <p class="text-sm text-gray-600 leading-relaxed flex-grow">AI-powered career guidance system. Analyzes skills, maps gaps, generates personalized roadmaps using Gemini + Vertex AI. Deployed on GCP Cloud Run with Dockerized backend.</p>
+                <div class="flex flex-wrap gap-2 mt-5">
+                    <span class="tag tag-yellow">Vertex AI</span>
+                    <span class="tag tag-blue">GCP</span>
+                    <span class="tag">Docker</span>
+                    <span class="tag">TypeScript</span>
+                </div>
+            </div>
+
+            <!-- Dogs vs Cat -->
+            <div class="bcard p-6 flex flex-col" style="background:#fafaf5">
+                <div class="flex justify-between items-start mb-4">
+                    <div class="sticker" style="background:#ffd6e7">👁️</div>
+                    <a href="https://github.com/amiitt001/Dogs-Vs-Cat-detection" target="_blank" class="border-2 border-black rounded p-1.5 hover:bg-yellow-200 transition-colors">
+                        <i data-lucide="github" class="h-4 w-4"></i>
+                    </a>
+                </div>
+                <h3 class="text-lg font-bold mb-2">Hybrid Cat-Dog Detection</h3>
+                <p class="text-sm text-gray-600 leading-relaxed flex-grow">Deep learning pipeline combining YOLOv8 for real-time localization + fine-tuned MobileNetV2 CNN for classification. Each model does what it does best — higher accuracy than either alone.</p>
+                <div class="flex flex-wrap gap-2 mt-5">
+                    <span class="tag tag-pink">Python</span>
+                    <span class="tag">YOLOv8</span>
+                    <span class="tag">PyTorch</span>
+                    <span class="tag">MobileNetV2</span>
+                </div>
+            </div>
+
+            <!-- QR + PDF -->
+            <div class="bcard p-6 flex flex-col" style="background:#fafaf5">
+                <div class="flex justify-between items-start mb-4">
+                    <div class="sticker" style="background:#d6e8ff">📱</div>
+                    <a href="https://github.com/amiitt001/llc" target="_blank" class="border-2 border-black rounded p-1.5 hover:bg-yellow-200 transition-colors">
+                        <i data-lucide="github" class="h-4 w-4"></i>
+                    </a>
+                </div>
+                <h3 class="text-lg font-bold mb-2">QR Code & PDF Converter</h3>
+                <p class="text-sm text-gray-600 leading-relaxed flex-grow">100% client-side — zero server, zero data sent anywhere. Generates QR codes and converts PDFs entirely in the browser. Privacy-first. 15 production deployments on Vercel.</p>
+                <div class="flex flex-wrap gap-2 mt-5">
+                    <span class="tag tag-blue">TypeScript</span>
+                    <span class="tag">Vite</span>
+                    <span class="tag tag-green">Vercel</span>
+                         Hello there! I'm Amit, a student developer passionate about helping others in India navigate their career paths. I enjoy tackling complex problems and honing my practical cloud skills, especially with the Google Cloud Arcade.
                     </p>
                     <p class="mb-4">
                         My current focus is on my Career Advisor project, which utilizes a modern stack to deliver a personalized experience. I'm also diving deep into advanced concepts in Generative AI and learning how to deploy robust applications at scale.
