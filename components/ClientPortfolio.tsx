@@ -262,9 +262,9 @@ export default function ClientPortfolio({ initialProjects }: { initialProjects: 
       </div>
 
       {/* 02. About Section */}
-      <section id="about" className="max-w-6xl mx-auto px-6 py-20">
+      <section id="about" className="section-wrap">
         <div className="section-label">01 // About Me</div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-4">
+        <div className="about-grid">
           <div className="md:col-span-2 space-y-4 text-base leading-relaxed text-gray-700">
             <p className="text-xl font-semibold text-black">
               I'm a Computer Science Engineering student focused on <strong>AI engineering, full-stack development, and automation.</strong>
@@ -304,17 +304,17 @@ export default function ClientPortfolio({ initialProjects }: { initialProjects: 
       </section>
 
       {/* 03. Tech Stack Section */}
-      <section id="skills" className="max-w-6xl mx-auto px-6 py-12 pb-20">
+      <section id="skills" className="section-wrap">
         <div className="section-label">02 // Tech Stack</div>
         <p className="text-sm text-gray-600 mb-6 font-mono">// Grouped technologies I actively defend and deploy</p>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="skills-grid">
           <div className="bcard p-6">
             <div className="flex items-center gap-3 mb-4">
               <div className="sticker" style={{ background: 'var(--yellow)' }}>💻</div>
               <h3 className="font-bold text-lg">Languages</h3>
             </div>
-            <div className="flex flex-wrap gap-2">
+            <div className="filter-group">
               <span className="skill-pill">C++</span>
               <span className="skill-pill">Python</span>
               <span className="skill-pill">JavaScript</span>
@@ -328,7 +328,7 @@ export default function ClientPortfolio({ initialProjects }: { initialProjects: 
               <div className="sticker" style={{ background: '#d6e8ff' }}>⚛️</div>
               <h3 className="font-bold text-lg">Frontend</h3>
             </div>
-            <div className="flex flex-wrap gap-2">
+            <div className="filter-group">
               <span className="skill-pill">React</span>
               <span className="skill-pill">Next.js</span>
               <span className="skill-pill">Tailwind CSS</span>
@@ -342,7 +342,7 @@ export default function ClientPortfolio({ initialProjects }: { initialProjects: 
               <div className="sticker" style={{ background: '#ffd6e7' }}>⚙️</div>
               <h3 className="font-bold text-lg">Backend</h3>
             </div>
-            <div className="flex flex-wrap gap-2">
+            <div className="filter-group">
               <span className="skill-pill">FastAPI</span>
               <span className="skill-pill">Node.js</span>
               <span className="skill-pill">Express.js</span>
@@ -355,7 +355,7 @@ export default function ClientPortfolio({ initialProjects }: { initialProjects: 
               <div className="sticker" style={{ background: '#ccf5e7' }}>🧠</div>
               <h3 className="font-bold text-lg">AI / Machine Learning</h3>
             </div>
-            <div className="flex flex-wrap gap-2">
+            <div className="filter-group">
               <span className="skill-pill">Gemini</span>
               <span className="skill-pill">LangChain</span>
               <span className="skill-pill">RAG</span>
@@ -371,7 +371,7 @@ export default function ClientPortfolio({ initialProjects }: { initialProjects: 
               <div className="sticker" style={{ background: '#ede2ff' }}>🗄️</div>
               <h3 className="font-bold text-lg">Databases</h3>
             </div>
-            <div className="flex flex-wrap gap-2">
+            <div className="filter-group">
               <span className="skill-pill">PostgreSQL</span>
               <span className="skill-pill">Prisma</span>
               <span className="skill-pill">Firebase</span>
@@ -384,7 +384,7 @@ export default function ClientPortfolio({ initialProjects }: { initialProjects: 
               <div className="sticker" style={{ background: '#d6e8ff' }}>☁️</div>
               <h3 className="font-bold text-lg">Cloud & DevOps</h3>
             </div>
-            <div className="flex flex-wrap gap-2">
+            <div className="filter-group">
               <span className="skill-pill">Google Cloud</span>
               <span className="skill-pill">Cloud Run</span>
               <span className="skill-pill">Docker</span>
@@ -396,15 +396,15 @@ export default function ClientPortfolio({ initialProjects }: { initialProjects: 
       </section>
 
       {/* 04. Featured Projects ⭐ Section */}
-      <section id="projects" style={{ borderTop: 'var(--border)' }} className="bg-gray-50/50">
-        <div className="max-w-6xl mx-auto px-6 py-20">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+      <section id="projects" style={{ borderTop: 'var(--border)', background: '#f5f3ee' }}>
+        <div className="section-wrap">
+          <div className="projects-header">
             <div>
               <div className="section-label">03 // Featured Projects ⭐</div>
               <h2 className="text-3xl font-bold mt-1">Deep Engineering Showcase</h2>
             </div>
 
-            <div className="flex flex-wrap gap-2">
+            <div className="filter-group">
               <button onClick={() => setFilter('all')} className={`filter-btn ${filter === 'all' ? 'active' : ''}`}>All</button>
               <button onClick={() => setFilter('ai')} className={`filter-btn ${filter === 'ai' ? 'active' : ''}`}>AI & Agents 🧠</button>
               <button onClick={() => setFilter('vision')} className={`filter-btn ${filter === 'vision' ? 'active' : ''}`}>Vision & ML 👁️</button>
@@ -412,7 +412,7 @@ export default function ClientPortfolio({ initialProjects }: { initialProjects: 
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="projects-grid">
             {filteredProjects.map((p) => (
               <div key={p.id} className="bcard p-6 flex flex-col justify-between" style={{ background: '#fafaf5' }}>
                 <div>
@@ -469,7 +469,7 @@ export default function ClientPortfolio({ initialProjects }: { initialProjects: 
       </section>
 
       {/* 05. Experience Section */}
-      <section id="experience" className="max-w-6xl mx-auto px-6 py-20">
+      <section id="experience" className="section-wrap">
         <div className="section-label">04 // Experience & Roles</div>
         <h2 className="text-3xl font-bold mb-8">Leadership & Engineering Involvement</h2>
 
@@ -506,9 +506,9 @@ export default function ClientPortfolio({ initialProjects }: { initialProjects: 
       </section>
 
       {/* 06. Hackathons & Achievements Section */}
-      <section id="achievements" className="max-w-6xl mx-auto px-6 py-12 pb-20">
+      <section id="achievements" className="section-wrap">
         <div className="section-label">05 // Hackathons & Achievements</div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+        <div className="hackathons-grid">
           <div className="bcard p-6">
             <div className="flex items-center gap-3 mb-4">
               <div className="sticker" style={{ background: 'var(--yellow)' }}>🏆</div>
@@ -550,11 +550,11 @@ export default function ClientPortfolio({ initialProjects }: { initialProjects: 
       </section>
 
       {/* 07. Problem Solving Section */}
-      <section id="problem-solving" className="max-w-6xl mx-auto px-6 py-20" style={{ borderTop: 'var(--border)' }}>
+      <section id="problem-solving" className="section-wrap" style={{ borderTop: 'var(--border)' }}>
         <div className="section-label">06 // Problem Solving</div>
         <h2 className="text-3xl font-bold mb-6">Algorithms & Coding Activity</h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div className="stats-grid">
           <div className="bcard p-6 text-center" style={{ background: 'var(--yellow)' }}>
             <div className="text-4xl font-bold mono">250+</div>
             <div className="text-sm font-bold text-gray-800 mt-1">Total Problems Solved</div>
@@ -574,9 +574,9 @@ export default function ClientPortfolio({ initialProjects }: { initialProjects: 
       </section>
 
       {/* 08. Currently Building Section */}
-      <section id="building" className="max-w-6xl mx-auto px-6 py-12 pb-20">
+      <section id="building" className="section-wrap">
         <div className="section-label">07 // Currently Building</div>
-        <div className="bcard p-6 bg-white max-w-3xl">
+        <div className="bcard p-6 building-card">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
             <div>
               <h3 className="text-2xl font-bold">Deadline Guardian AI (DG-AI)</h3>
@@ -602,10 +602,10 @@ export default function ClientPortfolio({ initialProjects }: { initialProjects: 
       </section>
 
       {/* 09. Resume Section */}
-      <section id="resume" className="max-w-6xl mx-auto px-6 py-16 text-center bg-gray-50/80" style={{ borderTop: 'var(--border)' }}>
+      <section id="resume" className="section-wrap" style={{ textAlign: 'center', borderTop: 'var(--border)' }}>
         <div className="section-label">08 // Resume</div>
         <h2 className="text-3xl font-bold mt-2 mb-4">Want the Full Picture?</h2>
-        <p className="text-gray-700 max-w-md mx-auto mb-8 leading-relaxed">
+        <p style={{ color: "#555", maxWidth: "460px", margin: "0 auto 32px", lineHeight: "1.7" }}>
           Download my resume to see a complete summary of my technical experience, engineering projects, and academic background.
         </p>
         <a href="https://github.com/amiitt001" target="_blank" className="btn btn-black py-3 px-8 text-base">
@@ -614,17 +614,17 @@ export default function ClientPortfolio({ initialProjects }: { initialProjects: 
       </section>
 
       {/* 10. Contact Section */}
-      <section id="contact" style={{ borderTop: 'var(--border)' }} className="bg-yellow-300/20">
-        <div className="max-w-6xl mx-auto px-6 py-20">
+      <section id="contact" style={{ borderTop: 'var(--border)', background: 'rgba(245,217,10,0.12)' }}>
+        <div className="section-wrap">
           <div className="text-center mb-12">
             <div className="section-label">09 // Let's Talk</div>
             <h2 className="text-4xl font-bold mt-4 mb-4">LET'S BUILD SOMETHING</h2>
-            <p className="text-gray-700 max-w-lg mx-auto leading-relaxed">
+            <p style={{ color: "#555", maxWidth: "560px", margin: "0 auto", lineHeight: "1.7" }}>
               Have an interesting project, internship opportunity, or collaboration in mind? My inbox is open.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          <div className="contact-grid">
             <div className="bcard p-6" style={{ background: 'var(--white)' }}>
               <h3 style={{ fontWeight: 700, fontSize: '16px', marginBottom: '20px' }}>Send Me a Message</h3>
               <form onSubmit={handleContactSubmit} className="contact-form" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
