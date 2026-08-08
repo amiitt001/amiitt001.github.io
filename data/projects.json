@@ -1,0 +1,62 @@
+[
+  {
+    "id": "adk-hiring-agent",
+    "name": "adk-hiring-agent",
+    "title": "ADK Hiring Agent System",
+    "description": "AI-powered conversational hiring evaluation system built using Google ADK & Gemini models. Features 5 specialized sub-agents for rubric creation, candidate resume analysis, live GitHub evaluation, verdict scoring, and n8n workflow integration.",
+    "category": "ai",
+    "tags": ["Google ADK", "Gemini AI", "Python", "n8n", "Multi-Agent"],
+    "github_url": "https://github.com/amiitt001/adk-hiring-agent",
+    "demo_url": "https://adk-hiring-agent.onrender.com",
+    "icon": "🤖",
+    "icon_bg": "#ccf5e7",
+    "approved": true,
+    "featured": true,
+    "updated_at": "2026-08-08T19:30:00Z"
+  },
+  {
+    "id": "SkillSphere",
+    "name": "SkillSphere",
+    "title": "AI Career Compass",
+    "description": "Personalized career guidance engine powered by Gemini & Vertex AI. Analyzes skill inventories, maps knowledge gaps, and dynamically generates structured learning roadmaps tailored to user goals.",
+    "category": "ai",
+    "tags": ["Vertex AI", "GCP", "Docker", "TypeScript"],
+    "github_url": "https://github.com/amiitt001/SkillSphere",
+    "demo_url": "",
+    "icon": "🧠",
+    "icon_bg": "#f5d90a",
+    "approved": true,
+    "featured": true,
+    "updated_at": "2026-08-08T12:00:00Z"
+  },
+  {
+    "id": "Dogs-Vs-Cat-detection",
+    "name": "Dogs-Vs-Cat-detection",
+    "title": "Real-Time Vision Classifier",
+    "description": "Multi-model deep learning vision pipeline combining YOLOv8 for real-time target detection and fine-tuned MobileNetV2 for rapid edge-side classification with optimized latency.",
+    "category": "vision",
+    "tags": ["Python", "YOLOv8", "PyTorch", "MobileNetV2"],
+    "github_url": "https://github.com/amiitt001/Dogs-Vs-Cat-detection",
+    "demo_url": "",
+    "icon": "👁️",
+    "icon_bg": "#ffd6e7",
+    "approved": true,
+    "featured": true,
+    "updated_at": "2026-08-08T10:00:00Z"
+  },
+  {
+    "id": "llc",
+    "name": "llc",
+    "title": "Privacy-First QR & PDF Suite",
+    "description": "Zero-server client-side web utility. Generates QR codes and executes document conversions directly in the user's browser with complete privacy and zero data leakage.",
+    "category": "tools",
+    "tags": ["TypeScript", "Vite", "Vercel"],
+    "github_url": "https://github.com/amiitt001/llc",
+    "demo_url": "",
+    "icon": "📱",
+    "icon_bg": "#d6e8ff",
+    "approved": true,
+    "featured": true,
+    "updated_at": "2026-08-08T08:00:00Z"
+  }
+]

@@ -8,7 +8,10 @@ document.addEventListener('DOMContentLoaded', () => {
         lucide.createIcons();
     }
 
-    // 2. Scroll Progress Bar
+    // 2. Load & Render Approved Projects Dynamically
+    loadApprovedProjects();
+
+    // 3. Scroll Progress Bar
     const progressBar = document.getElementById('scroll-progress');
     window.addEventListener('scroll', () => {
         const scrollTop = window.scrollY;
@@ -21,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // 3. Mobile Navigation Toggle
+    // 4. Mobile Navigation Toggle
     const mobileMenuButton = document.getElementById('mobile-menu-button');
     const mobileMenu = document.getElementById('mobile-menu');
     if (mobileMenuButton && mobileMenu) {
@@ -38,32 +41,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 4. Project Filtering
-    const filterButtons = document.querySelectorAll('.filter-btn');
-    const projectCards = document.querySelectorAll('#projects-grid .bcard');
+    // 5. Project Filtering Setup
+    initProjectFiltering();
 
-    if (filterButtons.length > 0 && projectCards.length > 0) {
-        filterButtons.forEach(btn => {
-            btn.addEventListener('click', () => {
-                filterButtons.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-
-                const filterValue = btn.getAttribute('data-filter');
-
-                projectCards.forEach(card => {
-                    const cardCategory = card.getAttribute('data-category');
-                    if (filterValue === 'all' || cardCategory === filterValue || cardCategory.includes(filterValue)) {
-                        card.style.display = 'flex';
-                        card.classList.add('is-visible');
-                    } else {
-                        card.style.display = 'none';
-                    }
-                });
-            });
-        });
-    }
-
-    // 5. Toast Notification & Copy Email
+    // 6. Toast Notification & Copy Email
     const copyEmailBtn = document.getElementById('copy-email-btn');
     const toast = document.getElementById('toast');
 
@@ -89,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 6. Active Nav Link Highlighting & Scroll Reveal
+    // 7. Active Nav Link Highlighting & Scroll Reveal
     const sections = document.querySelectorAll('section[id]');
     const navLinks = document.querySelectorAll('.nav-link');
 
@@ -122,3 +103,99 @@ document.addEventListener('DOMContentLoaded', () => {
 
     revealElements.forEach(el => revealObserver.observe(el));
 });
+
+// Helper escape function
+function escapeHtml(str) {
+    if (!str) return '';
+    return str.replace(/[&<>"']/g, function(m) {
+        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[m];
+    });
+}
+
+// --------------------------------------------------------------------------
+// Dynamic Project Database Loading
+// --------------------------------------------------------------------------
+async function loadApprovedProjects() {
+    const grid = document.getElementById('projects-grid');
+    if (!grid) return;
+
+    let projects = [];
+
+    try {
+        // Try local storage first (allows immediate preview when changed in Admin Panel)
+        const localData = localStorage.getItem('portfolio_projects');
+        if (localData) {
+            projects = JSON.parse(localData);
+        } else {
+            const res = await fetch('data/projects.json');
+            if (res.ok) {
+                projects = await res.json();
+            }
+        }
+    } catch (err) {
+        console.error('Error fetching projects.json:', err);
+    }
+
+    // Filter only APPROVED projects
+    const approved = projects.filter(p => p.approved);
+
+    if (approved.length > 0) {
+        grid.innerHTML = approved.map(p => `
+            <div class="bcard p-6 flex flex-col" data-category="${escapeHtml(p.category || 'tools')}" style="background:#fafaf5">
+                <div class="flex justify-between items-start mb-4">
+                    <div class="sticker" style="background:${escapeHtml(p.icon_bg || '#ccf5e7')}">${p.icon || '🤖'}</div>
+                    <div class="flex gap-2">
+                        ${p.demo_url ? `
+                            <a href="${escapeHtml(p.demo_url)}" target="_blank" rel="noopener noreferrer" class="border-2 border-black rounded p-1.5 hover:bg-yellow-200 transition-colors" title="Live Demo">
+                                <i data-lucide="external-link" class="h-4 w-4"></i>
+                            </a>
+                        ` : ''}
+                        <a href="${escapeHtml(p.github_url)}" target="_blank" rel="noopener noreferrer" class="border-2 border-black rounded p-1.5 hover:bg-yellow-200 transition-colors" title="GitHub Repository">
+                            <i data-lucide="github" class="h-4 w-4"></i>
+                        </a>
+                    </div>
+                </div>
+                <h3 class="text-xl font-bold mb-2">${escapeHtml(p.title)}</h3>
+                <p class="text-sm text-gray-600 leading-relaxed flex-grow">
+                    ${escapeHtml(p.description)}
+                </p>
+                <div class="flex flex-wrap gap-2 mt-5">
+                    ${(p.tags || []).map(tag => `<span class="tag">${escapeHtml(tag)}</span>`).join('')}
+                </div>
+            </div>
+        `).join('');
+
+        if (window.lucide) {
+            lucide.createIcons();
+        }
+
+        // Re-initialize category filtering for newly created cards
+        initProjectFiltering();
+    }
+}
+
+function initProjectFiltering() {
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const projectCards = document.querySelectorAll('#projects-grid .bcard');
+
+    if (filterButtons.length > 0 && projectCards.length > 0) {
+        filterButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                const filterValue = btn.getAttribute('data-filter');
+
+                projectCards.forEach(card => {
+                    const cardCategory = card.getAttribute('data-category');
+                    if (filterValue === 'all' || cardCategory === filterValue || (cardCategory && cardCategory.includes(filterValue))) {
+                        card.style.display = 'flex';
+                        card.classList.add('is-visible');
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+    }
+}

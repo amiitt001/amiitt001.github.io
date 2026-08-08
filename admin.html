@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Admin Dashboard — Amit Verma</title>
+    <meta name="robots" content="noindex, nofollow">
+
+    <!-- Tailwind CSS & Fonts -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="css/styles.css">
+    
+    <style>
+        .modal-overlay {
+            background: rgba(13, 13, 13, 0.85);
+            backdrop-filter: blur(4px);
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-black min-h-screen flex flex-col">
+
+<!-- Passcode Authentication Modal -->
+<div id="auth-modal" class="fixed inset-0 modal-overlay z-50 flex items-center justify-center p-4">
+    <div class="bcard p-8 w-full max-w-md bg-white">
+        <div class="flex items-center justify-between mb-6">
+            <div class="sticker" style="background:var(--yellow)">🔒</div>
+            <span class="mono text-xs font-bold text-gray-500">// SECURE ACCESS</span>
+        </div>
+        <h2 class="text-2xl font-bold mb-2">Admin Dashboard</h2>
+        <p class="text-sm text-gray-600 mb-6">Enter your security PIN to access portfolio project management and GitHub sync controls.</p>
+        
+        <form id="auth-form" class="space-y-4">
+            <div>
+                <label for="passcode" class="block text-xs font-bold mono uppercase mb-2">Security Passcode</label>
+                <input type="password" id="passcode" required placeholder="••••••••" class="w-full border-2 border-black rounded p-3 font-mono text-lg focus:outline-none focus:bg-yellow-50">
+            </div>
+            <p id="auth-error" class="text-xs font-bold text-red-600 hidden">Incorrect passcode. Please try again.</p>
+            <button type="submit" class="w-full btn btn-black">
+                Unlock Dashboard 🔓
+            </button>
+        </form>
+        <p class="text-xs text-gray-400 mt-4 text-center mono">Default passcode: <code class="bg-gray-200 px-1 py-0.5 rounded text-black font-bold">admin123</code></p>
+    </div>
+</div>
+
+<!-- Main Admin Interface (Hidden until unlocked) -->
+<div id="admin-app" class="hidden flex-col flex-grow">
+
+    <!-- Top Navigation Bar -->
+    <header class="bg-white border-b-2 border-black sticky top-0 z-40">
+        <div class="max-w-6xl mx-auto px-6 py-4 flex flex-wrap justify-between items-center gap-4">
+            <div class="flex items-center gap-3">
+                <a href="index.html" class="mono font-bold text-xl tracking-tight">AV<span style="color:var(--yellow)">.</span> Admin</a>
+                <span class="tag tag-yellow">Control Panel</span>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-3">
+                <button id="sync-github-btn" class="btn btn-yellow text-xs py-2 px-3">
+                    <i data-lucide="refresh-cw" class="h-4 w-4"></i> Sync GitHub Repos
+                </button>
+                <button id="commit-github-btn" class="btn btn-black text-xs py-2 px-3">
+                    <i data-lucide="upload-cloud" class="h-4 w-4"></i> Push Changes to GitHub
+                </button>
+                <a href="index.html" class="btn btn-outline text-xs py-2 px-3">
+                    View Portfolio ↗
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="max-w-6xl mx-auto px-6 py-8 flex-grow w-full">
+
+        <!-- Notification Banner -->
+        <div id="sync-status" class="hidden mb-6 bcard p-4 bg-blue-50 border-blue-950 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <i data-lucide="info" class="h-5 w-5 text-blue-600"></i>
+                <span id="sync-status-msg" class="text-sm font-semibold"></span>
+            </div>
+            <button id="close-status-btn" class="text-xs font-bold text-gray-500 hover:text-black">Dismiss ✕</button>
+        </div>
+
+        <!-- Dashboard Stats Header -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+            <div class="bcard p-5 bg-white">
+                <div class="text-xs font-bold mono text-gray-500 uppercase">Live Portfolio Projects</div>
+                <div id="stat-approved-count" class="text-3xl font-bold mono mt-1">0</div>
+            </div>
+            <div class="bcard p-5" style="background:#ffd6e7">
+                <div class="text-xs font-bold mono text-gray-700 uppercase">Pending Approval Queue</div>
+                <div id="stat-pending-count" class="text-3xl font-bold mono mt-1">0</div>
+            </div>
+            <div class="bcard p-5" style="background:#ccf5e7">
+                <div class="text-xs font-bold mono text-gray-700 uppercase">Total GitHub Repos Fetched</div>
+                <div id="stat-total-count" class="text-3xl font-bold mono mt-1">0</div>
+            </div>
+        </div>
+
+        <!-- Tab Controls -->
+        <div class="flex flex-wrap gap-2 mb-6 border-b-2 border-black pb-4">
+            <button class="admin-tab-btn active filter-btn" data-tab="pending">
+                📥 Pending Approval (<span id="pending-badge">0</span>)
+            </button>
+            <button class="admin-tab-btn filter-btn" data-tab="approved">
+                ✅ Approved Projects (<span id="approved-badge">0</span>)
+            </button>
+            <button class="admin-tab-btn filter-btn" data-tab="settings">
+                🔑 GitHub PAT & Sync Settings
+            </button>
+        </div>
+
+        <!-- Tab 1: Pending Approval Queue -->
+        <section id="tab-pending" class="admin-tab-content">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold">Discovered Repositories (Awaiting Review)</h3>
+                <span class="text-xs text-gray-500 mono">Fetched via GitHub API for @amiitt001</span>
+            </div>
+            
+            <div id="pending-list" class="space-y-4">
+                <!-- Dynamically populated -->
+            </div>
+            <div id="pending-empty" class="bcard p-8 text-center text-gray-500">
+                <div class="text-4xl mb-2">🎉</div>
+                <p class="font-semibold text-gray-700">No pending projects awaiting approval.</p>
+                <p class="text-xs text-gray-500 mt-1">Click "Sync GitHub Repos" above to check for newly published repositories.</p>
+            </div>
+        </section>
+
+        <!-- Tab 2: Approved Projects List -->
+        <section id="tab-approved" class="admin-tab-content hidden">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold">Live Portfolio Projects</h3>
+                <button id="add-manual-project-btn" class="btn btn-yellow text-xs py-1.5 px-3">
+                    + Add Custom Project
+                </button>
+            </div>
+
+            <div id="approved-list" class="space-y-4">
+                <!-- Dynamically populated -->
+            </div>
+        </section>
+
+        <!-- Tab 3: Settings & Token Setup -->
+        <section id="tab-settings" class="admin-tab-content hidden">
+            <div class="bcard p-6 bg-white space-y-6 max-w-2xl">
+                <div>
+                    <h3 class="text-xl font-bold mb-1">GitHub API Integration Settings</h3>
+                    <p class="text-sm text-gray-600">Configure your GitHub Personal Access Token (PAT) to enable one-click direct commits to <code class="bg-gray-200 px-1 rounded">amiitt001/amiitt001.github.io</code> when approving projects.</p>
+                </div>
+
+                <div class="space-y-4 border-t-2 border-black pt-4">
+                    <div>
+                        <label for="pat-input" class="block text-xs font-bold mono uppercase mb-2">GitHub Personal Access Token (Fine-Grained or Classic)</label>
+                        <input type="password" id="pat-input" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" class="w-full border-2 border-black rounded p-3 font-mono text-sm focus:outline-none focus:bg-yellow-50">
+                        <p class="text-xs text-gray-500 mt-1">Requires <code class="bg-gray-100 px-1">repo</code> or <code class="bg-gray-100 px-1">contents:write</code> scope. Stored securely in local browser storage only.</p>
+                    </div>
+
+                    <div class="flex items-center gap-3">
+                        <button id="save-pat-btn" class="btn btn-black text-xs">
+                            Save Token
+                        </button>
+                        <button id="clear-pat-btn" class="btn btn-outline text-xs text-red-600 border-red-600">
+                            Clear Token
+                        </button>
+                    </div>
+                </div>
+
+                <div class="border-t-2 border-black pt-4">
+                    <h4 class="font-bold text-sm mb-2">Alternative Export Methods</h4>
+                    <p class="text-sm text-gray-600 mb-3">If you prefer manual commits, you can copy or download the updated <code class="bg-gray-200 px-1 rounded">data/projects.json</code> contents directly.</p>
+                    <div class="flex gap-3">
+                        <button id="export-json-btn" class="btn btn-yellow text-xs">
+                            <i data-lucide="download" class="h-4 w-4"></i> Download projects.json
+                        </button>
+                        <button id="copy-json-btn" class="btn btn-outline text-xs">
+                            <i data-lucide="copy" class="h-4 w-4"></i> Copy JSON to Clipboard
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t-2 border-black py-4 mt-auto">
+        <div class="max-w-6xl mx-auto px-6 text-center text-xs text-gray-500">
+            Portfolio Admin Dashboard — Amit Verma • <a href="index.html" class="underline font-bold text-black">Return to main portfolio</a>
+        </div>
+    </footer>
+
+</div>
+
+<!-- Project Edit/Approve Modal -->
+<div id="edit-modal" class="fixed inset-0 modal-overlay z-50 flex items-center justify-center p-4 hidden">
+    <div class="bcard p-6 w-full max-w-2xl bg-white max-h-[90vh] overflow-y-auto">
+        <div class="flex items-center justify-between mb-4 border-b-2 border-black pb-3">
+            <h3 id="modal-title" class="text-xl font-bold">Approve & Publish Project</h3>
+            <button id="close-modal-btn" class="text-lg font-bold hover:bg-yellow-200 px-2 rounded">✕</button>
+        </div>
+
+        <form id="edit-project-form" class="space-y-4">
+            <input type="hidden" id="edit-id">
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-xs font-bold mono uppercase mb-1">Project Name / Repo ID</label>
+                    <input type="text" id="edit-name" readonly class="w-full border-2 border-black bg-gray-100 rounded p-2 text-sm font-mono">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold mono uppercase mb-1">Display Title</label>
+                    <input type="text" id="edit-display-title" required class="w-full border-2 border-black rounded p-2 text-sm focus:bg-yellow-50">
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-xs font-bold mono uppercase mb-1">Description</label>
+                <textarea id="edit-description" rows="3" required class="w-full border-2 border-black rounded p-2 text-sm focus:bg-yellow-50"></textarea>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div>
+                    <label class="block text-xs font-bold mono uppercase mb-1">Category</label>
+                    <select id="edit-category" class="w-full border-2 border-black rounded p-2 text-sm focus:bg-yellow-50">
+                        <option value="ai">AI & Agents 🧠</option>
+                        <option value="vision">Vision & ML 👁️</option>
+                        <option value="tools">Web & Tools ⚡</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold mono uppercase mb-1">Icon Emoji</label>
+                    <input type="text" id="edit-icon" value="🤖" class="w-full border-2 border-black rounded p-2 text-sm focus:bg-yellow-50">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold mono uppercase mb-1">Icon Background</label>
+                    <input type="text" id="edit-icon-bg" value="#ccf5e7" class="w-full border-2 border-black rounded p-2 text-sm focus:bg-yellow-50">
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-xs font-bold mono uppercase mb-1">GitHub URL</label>
+                    <input type="url" id="edit-github-url" required class="w-full border-2 border-black rounded p-2 text-sm focus:bg-yellow-50">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold mono uppercase mb-1">Demo / Live URL (Optional)</label>
+                    <input type="url" id="edit-demo-url" placeholder="https://..." class="w-full border-2 border-black rounded p-2 text-sm focus:bg-yellow-50">
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-xs font-bold mono uppercase mb-1">Tech Stack Tags (Comma separated)</label>
+                <input type="text" id="edit-tags" placeholder="Python, Gemini, Docker" class="w-full border-2 border-black rounded p-2 text-sm focus:bg-yellow-50">
+            </div>
+
+            <div class="flex items-center gap-2 pt-2">
+                <input type="checkbox" id="edit-approved" class="h-4 w-4 border-2 border-black rounded text-black">
+                <label for="edit-approved" class="text-sm font-bold">Approved for Live Portfolio Display</label>
+            </div>
+
+            <div class="flex justify-end gap-3 pt-4 border-t-2 border-black">
+                <button type="button" id="cancel-edit-btn" class="btn btn-outline text-xs">Cancel</button>
+                <button type="submit" class="btn btn-yellow text-xs">Save & Approve Project 🚀</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Admin JavaScript Module -->
+<script src="js/admin.js"></script>
+</body>
+</html>
