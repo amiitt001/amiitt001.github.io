@@ -191,19 +191,19 @@ export default function ClientPortfolio({ initialProjects }: { initialProjects: 
       )}
 
       {/* 01. Hero Section */}
-      <section id="home" className="relative max-w-6xl mx-auto px-6 py-16 md:py-24">
+      <section id="home" className="hero-section" style={{ position: 'relative' }}>
         <canvas ref={canvasRef} id="hero-canvas"></canvas>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center relative z-10">
+        <div className="hero-grid" style={{ position: 'relative', zIndex: 1 }}>
           <div>
-            <div className="section-label mono mb-4">// hello world</div>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-4">
+            <div className="hero-label mono">// hello world</div>
+            <h1 className="hero-h1">
               I build <span className="hl">intelligent software</span> at the intersection of AI, engineering, and automation.
             </h1>
-            <p className="text-base sm:text-lg text-gray-700 font-medium mb-8 max-w-lg leading-relaxed">
+            <p className="hero-sub">
               Computer Science student building production-focused AI applications, developer tools, and scalable web systems.
             </p>
-            <div className="flex flex-wrap gap-3">
+            <div className="hero-actions">
               <a href="#projects" className="btn btn-black">View Projects ↓</a>
               <a href="#resume" className="btn btn-yellow">
                 <FileText className="h-4 w-4" /> Download Resume
@@ -214,9 +214,9 @@ export default function ClientPortfolio({ initialProjects }: { initialProjects: 
             </div>
           </div>
 
-          <div className="flex justify-center md:justify-end">
-            <div className="hero-frame w-72 sm:w-80">
-              <div className="flex items-center gap-1.5 mb-3">
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <div className="hero-frame" style={{ width: '100%', maxWidth: '320px' }}>
+              <div className="hero-frame-dots">
                 <span className="hero-frame-dot" style={{ background: '#ff6b9d' }}></span>
                 <span className="hero-frame-dot" style={{ background: '#f5d90a' }}></span>
                 <span className="hero-frame-dot" style={{ background: '#00c48c' }}></span>
@@ -226,9 +226,10 @@ export default function ClientPortfolio({ initialProjects }: { initialProjects: 
                 alt="Amit Verma Profile"
                 width={320}
                 height={320}
-                className="w-full rounded-md border-2 border-black object-cover aspect-square"
+                className="hero-photo"
+                priority
               />
-              <div className="mt-4 flex flex-wrap gap-2">
+              <div className="hero-tags">
                 <span className="tag tag-yellow">AI/ML 🧠</span>
                 <span className="tag tag-pink">DevOps ⚙️</span>
                 <span className="tag tag-blue">GCP ☁️</span>
@@ -624,22 +625,22 @@ export default function ClientPortfolio({ initialProjects }: { initialProjects: 
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            <div className="bcard p-6 bg-white">
-              <h3 className="font-bold text-lg mb-4">Send Me a Message</h3>
-              <form onSubmit={handleContactSubmit} className="space-y-4">
+            <div className="bcard p-6" style={{ background: 'var(--white)' }}>
+              <h3 style={{ fontWeight: 700, fontSize: '16px', marginBottom: '20px' }}>Send Me a Message</h3>
+              <form onSubmit={handleContactSubmit} className="contact-form" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                 <div>
-                  <label className="block text-xs font-bold mono uppercase mb-1">Your Name</label>
-                  <input name="name" type="text" required placeholder="Jane Doe" className="w-full border-2 border-black rounded p-2.5 text-sm focus:bg-yellow-50" />
+                  <label className="contact-label">Your Name</label>
+                  <input name="name" type="text" required placeholder="Jane Doe" />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold mono uppercase mb-1">Your Email</label>
-                  <input name="email" type="email" required placeholder="jane@example.com" className="w-full border-2 border-black rounded p-2.5 text-sm focus:bg-yellow-50" />
+                  <label className="contact-label">Your Email</label>
+                  <input name="email" type="email" required placeholder="jane@example.com" />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold mono uppercase mb-1">Message</label>
-                  <textarea name="message" rows={4} required placeholder="Let's build..." className="w-full border-2 border-black rounded p-2.5 text-sm focus:bg-yellow-50"></textarea>
+                  <label className="contact-label">Message</label>
+                  <textarea name="message" rows={4} required placeholder="Let's build something awesome..."></textarea>
                 </div>
-                <button type="submit" disabled={submitting} className="w-full btn btn-black text-xs py-3">
+                <button type="submit" disabled={submitting} className="btn btn-black" style={{ width: '100%' }}>
                   {submitting ? 'Sending...' : 'Send Message 🚀'}
                 </button>
               </form>
