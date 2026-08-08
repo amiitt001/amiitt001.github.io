@@ -171,7 +171,7 @@ export default function ClientPortfolio({ initialProjects }: { initialProjects: 
         </div>
       )}
 
-      <!-- 01. Hero Section -->
+      {/* 01. Hero Section */}
       <section id="home" className="relative max-w-6xl mx-auto px-6 py-16 md:py-24">
         <canvas ref={canvasRef} id="hero-canvas"></canvas>
 
@@ -220,7 +220,7 @@ export default function ClientPortfolio({ initialProjects }: { initialProjects: 
         </div>
       </section>
 
-      <!-- Marquee Ticker -->
+      {/* Marquee Ticker */}
       <div className="ticker-wrap">
         <div className="ticker">
           <span>Python</span><span className="dot">✦</span>
@@ -241,7 +241,7 @@ export default function ClientPortfolio({ initialProjects }: { initialProjects: 
         </div>
       </div>
 
-      <!-- 02. About Section -->
+      {/* 02. About Section */}
       <section id="about" className="max-w-6xl mx-auto px-6 py-20">
         <div className="section-label">01 // About Me</div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-4">
@@ -283,7 +283,7 @@ export default function ClientPortfolio({ initialProjects }: { initialProjects: 
         </div>
       </section>
 
-      <!-- 03. Tech Stack Section -->
+      {/* 03. Tech Stack Section */}
       <section id="skills" className="max-w-6xl mx-auto px-6 py-12 pb-20">
         <div className="section-label">02 // Tech Stack</div>
         <p className="text-sm text-gray-600 mb-6 font-mono">// Grouped technologies I actively defend and deploy</p>
@@ -375,7 +375,7 @@ export default function ClientPortfolio({ initialProjects }: { initialProjects: 
         </div>
       </section>
 
-      <!-- 04. Featured Projects ⭐ Section -->
+      {/* 04. Featured Projects ⭐ Section */}
       <section id="projects" style={{ borderTop: 'var(--border)' }} className="bg-gray-50/50">
         <div className="max-w-6xl mx-auto px-6 py-20">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
@@ -448,7 +448,7 @@ export default function ClientPortfolio({ initialProjects }: { initialProjects: 
         </div>
       </section>
 
-      <!-- 05. Experience Section -->
+      {/* 05. Experience Section */}
       <section id="experience" className="max-w-6xl mx-auto px-6 py-20">
         <div className="section-label">04 // Experience & Roles</div>
         <h2 className="text-3xl font-bold mb-8">Leadership & Engineering Involvement</h2>
@@ -485,7 +485,7 @@ export default function ClientPortfolio({ initialProjects }: { initialProjects: 
         </div>
       </section>
 
-      <!-- 06. Hackathons & Achievements Section -->
+      {/* 06. Hackathons & Achievements Section */}
       <section id="achievements" className="max-w-6xl mx-auto px-6 py-12 pb-20">
         <div className="section-label">05 // Hackathons & Achievements</div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
@@ -529,7 +529,7 @@ export default function ClientPortfolio({ initialProjects }: { initialProjects: 
         </div>
       </section>
 
-      <!-- 07. Problem Solving Section -->
+      {/* 07. Problem Solving Section */}
       <section id="problem-solving" className="max-w-6xl mx-auto px-6 py-20" style={{ borderTop: 'var(--border)' }}>
         <div className="section-label">06 // Problem Solving</div>
         <h2 className="text-3xl font-bold mb-6">Algorithms & Coding Activity</h2>
@@ -553,7 +553,7 @@ export default function ClientPortfolio({ initialProjects }: { initialProjects: 
         </div>
       </section>
 
-      <!-- 08. Currently Building Section -->
+      {/* 08. Currently Building Section */}
       <section id="building" className="max-w-6xl mx-auto px-6 py-12 pb-20">
         <div className="section-label">07 // Currently Building</div>
         <div className="bcard p-6 bg-white max-w-3xl">
@@ -581,7 +581,7 @@ export default function ClientPortfolio({ initialProjects }: { initialProjects: 
         </div>
       </section>
 
-      <!-- 09. Resume Section -->
+      {/* 09. Resume Section */}
       <section id="resume" className="max-w-6xl mx-auto px-6 py-16 text-center bg-gray-50/80" style={{ borderTop: 'var(--border)' }}>
         <div className="section-label">08 // Resume</div>
         <h2 className="text-3xl font-bold mt-2 mb-4">Want the Full Picture?</h2>
@@ -593,7 +593,7 @@ export default function ClientPortfolio({ initialProjects }: { initialProjects: 
         </a>
       </section>
 
-      <!-- 10. Contact Section -->
+      {/* 10. Contact Section */}
       <section id="contact" style={{ borderTop: 'var(--border)' }} className="bg-yellow-300/20">
         <div className="max-w-6xl mx-auto px-6 py-20">
           <div className="text-center mb-12">
