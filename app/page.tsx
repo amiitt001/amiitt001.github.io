@@ -34,7 +34,6 @@ export default async function HomePage() {
             <a href="#achievements"    className="nav-link">Wins</a>
             <a href="#problem-solving" className="nav-link">DSA</a>
             <a href="#resume"          className="nav-link">Resume</a>
-            <Link href="/admin"        className="nav-link" style={{ fontWeight: 700 }}>⚙ Admin</Link>
             <a href="#contact"         className="nav-cta">Say Hello ↗</a>
           </div>
 
@@ -54,9 +53,7 @@ export default async function HomePage() {
         <div style={{ maxWidth: '1152px', margin: '0 auto', padding: '0 24px', display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: '12px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#555', fontSize: '13px' }}>
             <Image src="/logo.png" alt="" width={20} height={20} style={{ borderRadius: '4px', border: '1.5px solid var(--black)' }} />
-            <span>© 2026 Amit Verma · Built with Brutalist Precision ·{' '}
-              <Link href="/admin" style={{ textDecoration: 'underline', fontWeight: 600, color: 'var(--black)' }}>Admin ⚙</Link>
-            </span>
+            <span>© 2026 Amit Verma · Built with Brutalist Precision</span>
           </div>
           <a href="#" style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, textDecoration: 'none', color: 'var(--black)', border: 'var(--border)', padding: '4px 12px', borderRadius: '4px', boxShadow: 'var(--shadow)' }}>
             Back to Top ↑
