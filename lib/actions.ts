@@ -163,7 +163,7 @@ export async function syncGitHubReposAction(username: string = 'amiitt001') {
 
     const repos = await res.json();
     const existingProjects = await prisma.project.findMany();
-    const knownNames = new Set(existingProjects.map(p => p.name.toLowerCase()));
+    const knownNames = new Set(existingProjects.map((p: { name: string }) => p.name.toLowerCase()));
 
     const newRepos = repos.filter((r: any) => !knownNames.has(r.name.toLowerCase()) && r.name !== 'amiitt001.github.io');
 
