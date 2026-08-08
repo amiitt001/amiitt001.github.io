@@ -1,0 +1,61 @@
+datasource db {
+  provider = "sqlite"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String
+  role      String   @default("ADMIN")
+  createdAt DateTime @default(now())
+}
+
+model Project {
+  id                 String   @id @default(cuid())
+  name               String
+  title              String
+  description        String
+  problem            String?
+  architecture       String?
+  keyFeatures        String?
+  technicalDecisions String?
+  githubUrl          String
+  demoUrl            String?
+  icon               String   @default("🤖")
+  iconBg             String   @default("#ccf5e7")
+  category           String   @default("ai")
+  approved           Boolean  @default(true)
+  featured           Boolean  @default(true)
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+}
+
+model Experience {
+  id           String   @id @default(cuid())
+  organization String
+  role         String
+  period       String
+  description  String
+  createdAt    DateTime @default(now())
+}
+
+model Achievement {
+  id          String   @id @default(cuid())
+  title       String
+  category    String
+  description String
+  createdAt   DateTime @default(now())
+}
+
+model ContactMessage {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  message   String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
