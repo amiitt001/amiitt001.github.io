@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Space_Grotesk, Space_Mono } from 'next/font/google';
 import './globals.css';
+import './styles/tokens.css';
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
@@ -14,15 +15,19 @@ const spaceMono = Space_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://amiitt.vercel.app'),
   title: 'Amit Verma — AI & Full-Stack Engineer',
   description: 'Portfolio of Amit Verma — Computer Science student building production-focused AI applications, developer tools, and scalable web systems.',
   icons: {
     icon: '/logo.png',
   },
+  alternates: {
+    canonical: 'https://amiitt.vercel.app',
+  },
   openGraph: {
     title: 'Amit Verma — AI & Full-Stack Engineer',
     description: 'I build intelligent software at the intersection of AI, engineering, and automation.',
-    url: 'https://amiitt001.github.io',
+    url: 'https://amiitt.vercel.app',
     siteName: 'Amit Verma Portfolio',
     images: [
       {

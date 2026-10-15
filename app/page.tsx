@@ -28,18 +28,16 @@ export default async function HomePage() {
           {/* Right: Nav links — shown on large screens */}
           <div className="nav-links">
             <a href="#about"           className="nav-link">About</a>
-            <a href="#skills"          className="nav-link">Skills</a>
             <a href="#projects"        className="nav-link">Projects</a>
             <a href="#experience"      className="nav-link">Experience</a>
-            <a href="#achievements"    className="nav-link">Wins</a>
-            <a href="#problem-solving" className="nav-link">DSA</a>
+            <a href="#skills"          className="nav-link">Skills</a>
             <a href="#resume"          className="nav-link">Resume</a>
-            <a href="#contact"         className="nav-cta">Say Hello ↗</a>
+            <a href="#contact"         className="nav-cta">Contact ↗</a>
           </div>
 
           {/* Mobile: just CTA */}
           <div className="nav-mobile-only">
-            <a href="#contact" className="nav-cta">Say Hello ↗</a>
+            <a href="#contact" className="nav-cta">Contact ↗</a>
           </div>
 
         </div>
@@ -49,13 +47,13 @@ export default async function HomePage() {
       <ClientPortfolio initialProjects={projects} />
 
       {/* ── Footer ── */}
-      <footer style={{ borderTop: 'var(--border)', background: 'var(--white)', padding: '24px 0', marginTop: 'auto' }}>
-        <div style={{ maxWidth: '1152px', margin: '0 auto', padding: '0 24px', display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: '12px' }}>
+      <footer style={{ borderTop: 'var(--border)', background: 'var(--white)', padding: '20px 0', marginTop: 'auto' }}>
+        <div style={{ maxWidth: 'var(--max-w)', margin: '0 auto', padding: '0 var(--px)', display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: '12px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#555', fontSize: '13px' }}>
             <Image src="/logo.png" alt="" width={20} height={20} style={{ borderRadius: '4px', border: '1.5px solid var(--black)' }} />
             <span>© 2026 Amit Verma · Built with Brutalist Precision</span>
           </div>
-          <a href="#" style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, textDecoration: 'none', color: 'var(--black)', border: 'var(--border)', padding: '4px 12px', borderRadius: '4px', boxShadow: 'var(--shadow)' }}>
+          <a href="#" style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, textDecoration: 'none', color: 'var(--black)', border: 'var(--border)', padding: '4px 12px', borderRadius: '4px', boxShadow: 'var(--shadow-secondary)' }}>
             Back to Top ↑
           </a>
         </div>

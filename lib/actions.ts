@@ -5,6 +5,17 @@ import { ProjectSchema, ContactSchema, ProjectInput, ContactInput } from '@/lib/
 import { revalidatePath } from 'next/cache';
 
 // --------------------------------------------------------------------------
+// Local types
+// --------------------------------------------------------------------------
+interface GitHubRepo {
+  name: string;
+  description: string | null;
+  html_url: string;
+  homepage: string | null;
+  topics?: string[];
+}
+
+// --------------------------------------------------------------------------
 // 1. Projects Actions
 // --------------------------------------------------------------------------
 export async function getProjectsAction() {
@@ -161,11 +172,11 @@ export async function syncGitHubReposAction(username: string = 'amiitt001') {
 
     if (!res.ok) throw new Error(`GitHub API returned status ${res.status}`);
 
-    const repos = await res.json();
+    const repos = await res.json() as GitHubRepo[];
     const existingProjects = await prisma.project.findMany();
     const knownNames = new Set(existingProjects.map((p: { name: string }) => p.name.toLowerCase()));
 
-    const newRepos = repos.filter((r: any) => !knownNames.has(r.name.toLowerCase()) && r.name !== 'amiitt001.github.io');
+    const newRepos = repos.filter((r: GitHubRepo) => !knownNames.has(r.name.toLowerCase()) && r.name !== 'amiitt001.github.io');
 
     for (const repo of newRepos) {
       const text = `${repo.name} ${repo.description || ''} ${(repo.topics || []).join(' ')}`.toLowerCase();
@@ -200,8 +211,9 @@ export async function syncGitHubReposAction(username: string = 'amiitt001') {
 
     revalidatePath('/admin');
     return { success: true, count: newRepos.length };
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'Unknown error';
     console.error('Sync error:', error);
-    return { success: false, error: error.message };
+    return { success: false, error: message };
   }
 }
