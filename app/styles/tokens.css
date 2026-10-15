@@ -1,0 +1,119 @@
+/**
+ * tokens.css — Physics-Inspired Portfolio Design System
+ *
+ * Target palette: cream/forest-green/sage/highlight
+ * These tokens are ADDED alongside existing tokens in globals.css.
+ * Migration from the current brutalist palette happens incrementally.
+ *
+ * Reference: design.md § 2. Visual Identity
+ */
+
+:root {
+  /* ── New Target Palette ─────────────────────────────────────────── */
+  --cream:    #FAF8F3;   /* Main page background                       */
+  --green:    #2D4F3A;   /* Primary brand — buttons, dark panels        */
+  --sage:     #556B4E;   /* Secondary accents, labels, dividers         */
+  --glow:     #A6B69A;   /* Orbital highlights, soft lighting           */
+  --ink:      #1F3025;   /* Main body text                              */
+  --muted:    #667166;   /* Secondary / supporting text                 */
+  --line:     #D7DDD3;   /* Borders, separators                         */
+  --critical: #A34B3C;   /* Rare emphasis only — errors, key CTA        */
+
+  /* ── Semantic surfaces ──────────────────────────────────────────── */
+  --surface:       var(--cream);          /* Page background            */
+  --surface-raised: #F3F0EA;             /* Card / panel background     */
+  --surface-dark:  var(--green);          /* Dark panel / hero overlay  */
+
+  /* ── Typography scale ───────────────────────────────────────────── */
+  --text-base:    1rem;        /* 16px */
+  --text-sm:      0.875rem;    /* 14px */
+  --text-xs:      0.75rem;     /* 12px */
+  --text-lg:      1.125rem;    /* 18px */
+  --text-xl:      1.25rem;     /* 20px */
+  --text-2xl:     1.5rem;      /* 24px */
+  --text-3xl:     1.875rem;    /* 30px */
+  --text-4xl:     2.25rem;     /* 36px */
+  --text-hero:    clamp(2.2rem, 5vw, 3.5rem);  /* Hero headline */
+
+  /* ── Spacing scale (4-point) ─────────────────────────────────────── */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  20px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+
+  /* ── Border radii ───────────────────────────────────────────────── */
+  --radius-sm:  4px;
+  --radius-md:  8px;
+  --radius-lg:  12px;
+  --radius-xl:  16px;
+  --radius-pill: 9999px;
+
+  /* ── Borders ────────────────────────────────────────────────────── */
+  --border-subtle: 1px solid var(--line);         /* Hairline separator  */
+  --border-card:   1px solid var(--line);         /* Card border         */
+  --border-strong: 1.5px solid var(--sage);       /* Accent border       */
+
+  /* ── Shadows (soft / glowy, not brutalist) ──────────────────────── */
+  --shadow-sm:   0 1px 3px rgba(31, 48, 37, 0.08);
+  --shadow-md:   0 4px 16px rgba(31, 48, 37, 0.10);
+  --shadow-lg:   0 8px 32px rgba(31, 48, 37, 0.12);
+  --shadow-glow: 0 0 24px rgba(45, 79, 58, 0.18), 0 0 48px rgba(45, 79, 58, 0.08);
+
+  /* ── Motion / Transition tokens ──────────────────────────────────── */
+  --ease-out:     cubic-bezier(0.16, 1, 0.3, 1);   /* Spring-like, fast out */
+  --ease-in-out:  cubic-bezier(0.45, 0, 0.55, 1);  /* Balanced              */
+  --ease-bounce:  cubic-bezier(0.34, 1.56, 0.64, 1); /* Slight overshoot    */
+
+  --duration-fast:   120ms;
+  --duration-normal: 250ms;
+  --duration-slow:   400ms;
+  --duration-scene:  600ms;
+
+  /* ── Z-index layers ──────────────────────────────────────────────── */
+  --z-base:    0;
+  --z-raised:  10;
+  --z-nav:     100;
+  --z-overlay: 200;
+  --z-modal:   300;
+  --z-toast:   9999;
+
+  /* ── 3D / Canvas ────────────────────────────────────────────────── */
+  --pixel-ratio-cap: 2;   /* Cap device pixel ratio for perf */
+}
+
+/* ── Reduced motion: disable all non-essential animation ────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration:   0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration:  0.01ms !important;
+    scroll-behavior:      auto !important;
+  }
+
+  /* Canvas-based animations should be stopped by JS reading useReducedMotion */
+  canvas {
+    /* Visually hidden in reduced-motion if they are purely decorative */
+    /* Components will add: display:none or a static fallback via JS   */
+  }
+}
+
+/* ── Focus styles ───────────────────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--green);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+/* Remove default outline only when :focus-visible is not present */
+:focus:not(:focus-visible) {
+  outline: none;
+}
